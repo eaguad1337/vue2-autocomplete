@@ -1,36 +1,11 @@
-
 <template>
   <div :class="`${getClassName('wrapper')} autocomplete-wrapper`">
-    <input
-      ref="input"
-      type="text"
-      :id="id"
-      :class="`${getClassName('input')} autocomplete-input`"
-      :placeholder="placeholder"
-      :name="name"
-      v-model="type"
-      @input="handleInput"
-      @dblclick="handleDoubleClick"
-      @blur="handleBlur"
-      @keydown="handleKeyDown"
-      @focus="handleFocus"
-      autocomplete="off"
-    />
+    <input ref="input" type="text" :id="id" :class="`${getClassName('input')} autocomplete-input`" :placeholder="placeholder" :name="name" v-model="type" @input="handleInput" @dblclick="handleDoubleClick" @blur="handleBlur" @keydown="handleKeyDown" @focus="handleFocus" autocomplete="off"/>
 
-    <div
-      :class="`${getClassName('list')} autocomplete autocomplete-list`"
-      v-show="showList && json.length"
-    >
+    <div :class="`${getClassName('list')} autocomplete autocomplete-list`" v-show="showList && json.length">
       <ul>
-        <li
-          v-for="(data, i) in json"
-          :class="activeClass(i)"
-        >
-          <a
-            href="#"
-            @click.prevent="selectList(data)"
-            @mousemove="mousemove(i)"
-          >
+        <li v-for="(data, i) in json" :class="activeClass(i)">
+          <a href="#" @click.prevent="selectList(data)" @mousemove="mousemove(i)">
             <div v-if="onShouldRenderChild" v-html="onShouldRenderChild(data)"></div>
             <div v-if="!onShouldRenderChild">
               <b class="autocomplete-anchor-text">{{ deepValue(data, anchor) }}</b>
@@ -103,7 +78,7 @@
       // ajax URL will be fetched
       url: {
         type: String,
-        required: true
+        default: null
       },
 
       // query param
@@ -161,7 +136,7 @@
     watch: {
       options(newVal, oldVal) {
         if (this.filterByAnchor) {
-          const { type, anchor } = this
+          const {type, anchor} = this
           const regex = new RegExp(`${type}`, 'i')
           const filtered = newVal.filter((item) => {
             const found = item[anchor].search(regex) !== -1
@@ -177,7 +152,7 @@
     methods: {
 
       getClassName(part) {
-        const { classes, className } = this
+        const {classes, className} = this
         if (classes[part]) return `${classes[part]}`
         return className ? `${className}-${part}` : ''
       },
@@ -191,7 +166,7 @@
       },
 
       // Get the original data
-      cleanUp(data){
+      cleanUp(data) {
         return JSON.parse(JSON.stringify(data));
       },
 
@@ -199,11 +174,11 @@
       /*==============================
         INPUT EVENTS
       =============================*/
-      handleInput(e){
-        const { value } = e.target
+      handleInput(e) {
+        const {value} = e.target
         this.showList = true;
         // Callback Event
-        if(this.onInput) this.onInput(value)
+        if (this.onInput) this.onInput(value)
         // If Debounce
         if (this.debounce) {
           if (this.debounceTask !== undefined) clearTimeout(this.debounceTask)
@@ -216,11 +191,11 @@
       },
 
 
-      handleKeyDown(e){
+      handleKeyDown(e) {
         let key = e.keyCode;
 
         // Disable when list isn't showing up
-        if(!this.showList) return;
+        if (!this.showList) return;
 
         // Key List
         const DOWN = 40
@@ -234,19 +209,19 @@
           case DOWN:
             e.preventDefault()
             this.focusList++;
-          break;
+            break;
           case UP:
             e.preventDefault()
             this.focusList--;
-          break;
+            break;
           case ENTER:
             e.preventDefault()
             this.selectList(this.json[this.focusList])
             this.showList = false;
-          break;
+            break;
           case ESC:
             this.showList = false;
-          break;
+            break;
         }
 
         const listLength = this.json.length - 1;
@@ -266,12 +241,11 @@
       },
 
 
-
       /*==============================
         LIST EVENTS
       =============================*/
 
-      handleDoubleClick(){
+      handleDoubleClick() {
         this.json = [];
         this.getData("")
         // Callback Event
@@ -279,32 +253,32 @@
         this.showList = true;
       },
 
-      handleBlur(e){
+      handleBlur(e) {
         // Callback Event
         this.onBlur ? this.onBlur(e) : null
         setTimeout(() => {
           // Callback Event
           this.onHide ? this.onHide() : null
           this.showList = false;
-        },250);
+        }, 250);
       },
 
-      handleFocus(e){
+      handleFocus(e) {
         this.focusList = 0;
         // Callback Event
         this.onFocus ? this.onFocus(e) : null
       },
 
-      mousemove(i){
+      mousemove(i) {
         this.focusList = i;
       },
 
-      activeClass(i){
+      activeClass(i) {
         const focusClass = i === this.focusList ? 'focus-list' : ''
         return `${focusClass}`
       },
 
-      selectList(data){
+      selectList(data) {
         // Deep clone of the original object
         const clean = this.cleanUp(data);
         // Put the selected data to type (model)
@@ -324,7 +298,6 @@
       },
 
 
-
       /*==============================
         AJAX EVENTS
       =============================*/
@@ -332,7 +305,7 @@
       composeParams(val) {
         const encode = (val) => this.encodeParams ? encodeURIComponent(val) : val
         let params = `${this.param}=${encode(val)}`
-        if(this.customParams) {
+        if (this.customParams) {
           Object.keys(this.customParams).forEach((key) => {
             params += `&${key}=${encode(this.customParams[key])}`
           })
@@ -341,7 +314,7 @@
       },
 
       composeHeader(ajax) {
-        if(this.customHeaders) {
+        if (this.customHeaders) {
           Object.keys(this.customHeaders).forEach((key) => {
             ajax.setRequestHeader(key, this.customHeaders[key])
           })
@@ -359,11 +332,11 @@
         this.composeHeader(ajax)
         // Callback Event
         ajax.addEventListener('progress', (data) => {
-          if(data.lengthComputable && this.onAjaxProgress) this.onAjaxProgress(data)
+          if (data.lengthComputable && this.onAjaxProgress) this.onAjaxProgress(data)
         });
         // On Done
         ajax.addEventListener('loadend', (e) => {
-          const { responseText } = e.target
+          const {responseText} = e.target
           let json = JSON.parse(responseText);
           // Callback Event
           this.onAjaxLoaded ? this.onAjaxLoaded(json) : null
@@ -373,10 +346,11 @@
         ajax.send();
       },
 
-      getData(value){
-        if (value.length < this.min || !this.url) return;
-        if (this.onShouldGetData) this.manualGetData(value)
-        else this.doAjax(value)
+      getData(value) {
+        if (value.length < this.min) return;
+        if (this.onShouldGetData) return this.manualGetData(value)
+        if (this.url) this.doAjax(value)
+        else console.error('Either Url or onShouldGetData prop must be present.')
       },
 
       // Do Ajax Manually, so user can do whatever he want
@@ -392,13 +366,15 @@
     },
 
 
-    created(){
+    created() {
       // Sync parent model with initValue Props
       this.type = this.initValue ? this.initValue : null
     },
 
     mounted() {
       if (this.required) this.$refs.input.setAttribute("required", this.required)
+      if (!this.url && !this.onShouldGetData)
+        console.error('Either Url or onShouldGetData prop must be present.');
     }
 
   }
