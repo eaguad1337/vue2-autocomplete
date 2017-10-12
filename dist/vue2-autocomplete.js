@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Naufal Rabbani (http://github.com/BosNaufal),
  * ,Licensed Under MIT (http://opensource.org/licenses/MIT),
  * ,
- * ,Vue 2 Autocomplete @ Version 0.2.1,
+ * ,Vue 2 Autocomplete @ Version 0.2.2,
  * 
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -160,31 +160,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /*! Copyright (c) 2016 Naufal Rabbani (http://github.com/BosNaufal)
@@ -244,7 +219,7 @@ if (false) {(function () {
     // ajax URL will be fetched
     url: {
       type: String,
-      required: true
+      default: null
     },
 
     // query param
@@ -520,8 +495,9 @@ if (false) {(function () {
       ajax.send();
     },
     getData: function getData(value) {
-      if (value.length < this.min || !this.url) return;
-      if (this.onShouldGetData) this.manualGetData(value);else this.doAjax(value);
+      if (value.length < this.min) return;
+      if (this.onShouldGetData) return this.manualGetData(value);
+      if (this.url) this.doAjax(value);else console.error('Either Url or onShouldGetData prop must be present.');
     },
 
 
@@ -544,6 +520,7 @@ if (false) {(function () {
   },
   mounted: function mounted() {
     if (this.required) this.$refs.input.setAttribute("required", this.required);
+    if (!this.url && !this.onShouldGetData) console.error('Either Url or onShouldGetData prop must be present.');
   }
 });
 

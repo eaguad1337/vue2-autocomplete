@@ -1,57 +1,42 @@
 # Vue 2 Autocomplete
-Autocomplete Component For [Vue 2](http://vuejs.org). It's based on [vue-autocomplete](https://github.com/BosNaufal/vue-autocomplete). [LIVE DEMO HERE!](https://rawgit.com/BosNaufal/vue2-autocomplete/master/index.html)
+
+Autocomplete component for [Vue 2](http://vuejs.org). This is a fork of [vue2-autocomplete](https://github.com/BosNaufal/vue2-autocomplete) - Naufal Rabbani [bosnaufalemail@gmail.com](mailto:bosnaufalemail@gmail.com)
 
 <p align="center">
-  <a href="./" title="Vue Autocomplete">
-    <img src="./src/img/demo.gif" alt="vue Autocomplete component" title="Vue Autocomplete Component"/>
+  <a href="./" title="v2-Autocomplete">
+    <img src="./src/img/demo.gif" alt="vue Autocomplete component" title="v2 Autocomplete Component"/>
   </a>
 </p>
 
 ## Install
 You can import [vue2-autocomplete.vue](./src/js/components/vue-autocomplete.vue) to your vue component file like [this](./src/js/components/app.vue) and process it with your preprocessor.
 
-You can install it via NPM
+You can install it via Yarn
 ```bash
-npm install vue2-autocomplete-js
+yarn add v2-autocomplete
 ```
 
-Or Just put it after Vue JS~
-```html
-<script src="https://vuejs.org/js/vue.min.js"></script>
-<script src="./dist/vue2-autocomplete.js"></script>
-<script>
-  // Don't Forget to register it
-  new Vue({
-    components: {
-      autocomplete: Vue2Autocomplete
-    }
-  });
-</script>
+Or you can install it via NPM
+```bash
+npm i v2-autocomplete --save
 ```
 
-## Import Style
-Don't forget to import vue 2 css. You can link it via html
-```html
-<link rel="stylesheet" href="vue2-autocomplete-js/dist/style/vue2-autocomplete.css">
-```
-
-Or You can import it using commonJS
+Configure
 
 ```javascript
+import Autocomplete from 'v2-autocomplete';
+require('v2-autocomplete/dist/style/vue2-autocomplete.css');
+Vue.component('autocomplete', Autocomplete);
+
+// Styles
 require('vue2-autocomplete-js/dist/style/vue2-autocomplete.css')
 ```
 
 Its style is very customizable. You can put any CSS over it. And You can add custom class via its prop.
 
 
-## Import Module
-```javascript
-import Autocomplete from 'vue2-autocomplete-js'
-// Or
-var Autocomplete = require('vue2-autocomplete-js');
-```
-
 ## Usage
+
 ```html
 <template>
 
@@ -128,7 +113,7 @@ Available Props
 ```
 
 ## Props
-#### url* (String)
+#### url (String) *(optional if onShouldGetData is present)*
 the URL must be active (not from file). the component will fetch JSON from this URL and passing one params (default : `q`) query. like:
 ```
 http://some-url.com/API/list?q=
@@ -155,7 +140,7 @@ Manual pass an Array of list options to the autocomplete.
 When you're using options props, you can have autocomplete to filter your data. Or you can just show your data directly without any filter from autocomplete. The options will be filtered by anchor and it according to the user input.
 
 #### encodeParams (Boolean: true)
-Autocomplete will ```encodeURIComponent``` all your params before ajax send, When this props sets to ```true```. Default is ```true``` [#35](https://github.com/BosNaufal/vue2-autocomplete/pull/35)
+Autocomplete will ```encodeURIComponent``` all your params before ajax send, When this props sets to ```true```. Default is ```true``` [#35](https://github.com/eaguad1337/vue2-autocomplete/pull/35)
 
 #### debounce (Number)
 Delay time before do the ajax for the data
@@ -217,6 +202,7 @@ While ajax is fetching the data
 When ajax process is totally loaded
 
 #### onShouldGetData (Function)
+
 Manually Process the whole ajax process. If it's a Promise, it should resolve the options for the list of autocomplete. If it isn't a Promise, you can manually pass the options to the props of autocomplete
 ```html
 <autocomplete
@@ -284,8 +270,6 @@ methods: {
 }
 ```
 
-
-
 ## Methods
 You can do some methods by accessing the component via javascript.
 ```javascript
@@ -295,16 +279,11 @@ this.$refs.autocomplete.someMethod()
 #### setValue (String)
 To set the value of the autocomplete input
 
+## Contact me if you wan't to do something
 
-
-## Thank You for Making this useful~
-
-## Let's talk about some projects with me
-Just Contact Me At:
-- Email: [bosnaufalemail@gmail.com](mailto:bosnaufalemail@gmail.com)
-- Skype Id: bosnaufal254
-- twitter: [@BosNaufal](https://twitter.com/BosNaufal)
+[eduaguad@gmail.com](mailto:eduaguad@gmail.com)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
-Copyright (c) 2016 - forever Naufal Rabbani
+Copyright (c) 2017 Eduardo Aguad
+

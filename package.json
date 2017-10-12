@@ -1,5 +1,5 @@
 {
-  "name": "v-autocomplete",
+  "name": "v2-autocomplete",
   "version": "0.2.2",
   "description": "Autocomplete Component for Vue 2",
   "main": "./dist/vue2-autocomplete.js",
@@ -57,6 +57,7 @@
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
+    "v2-autocomplete": "^0.2.2",
     "vue": "^2.4.2"
   }
 }
